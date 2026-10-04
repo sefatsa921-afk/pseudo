@@ -1,0 +1,20 @@
+Login loop fix ("Your session ended. Please sign in again." over and over)
+==========================================================================
+Not reproduced on a real phone/Supabase, so this fixes every cause I could find in the code and adds a
+Connection check button so the real cause is visible next time.
+
+Found in the code:
+1. A rejected app key or a rejected token (HTTP 401) was always shown as "Your session ended", even on a fresh
+   sign-in attempt, so a wrong/disabled SUPABASE_PUBLISHABLE_KEY looked like an endless session problem.
+   Now: "Supabase rejected this app's key (...)" / "The server rejected your login token (...)".
+2. Token expiry was computed from the server's absolute expires_at compared with the phone's clock. A phone clock
+   that is off makes every token look expired -> refresh on every request -> rate limit -> signed out, repeatedly.
+   Now expiry is counted from when the app received the token (expires_in), so the phone clock no longer matters.
+3. ANY failed refresh (429 rate limit, 5xx, rejected key) ended the session. Now only a refresh token the server
+   says is dead ends it; everything else keeps the saved login and retries with backoff.
+4. Background refreshes repeated the same warning every 30 s. Now the same warning shows at most once a minute.
+5. If the app went offline right after the password check, sign-in crashed on a null user. Fixed.
+
+New: "Connection check" button on the sign-in screen. It shows: config present, key type, whether the auth
+service and database answer, phone clock vs server, saved-login state. It never prints the key.
+6 new tests (23 total).

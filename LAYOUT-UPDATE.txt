@@ -1,0 +1,51 @@
+Veya layout + dark mode + accessibility update (on top of Phase 2 + 3)
+=======================================================================
+
+APPLY: extract over your project folder (replace files), then:
+  git add .
+  git commit -m "Layout, dark mode, accessibility"
+  git push
+No SQL to run. Nothing in backend/ changed.
+
+DARK MODE (was broken: the switch set an attribute but almost nothing responded to it)
+- Works on every screen, including admin, in both demo and live mode.
+- Follows the phone's own light/dark setting until you choose with the Settings switch.
+- Applied before first paint, so no white flash on launch.
+
+NAVIGATION
+- Bottom tabs are now: Home, Communities, Events, Messages, Campus.
+- Campus is a new hub: Opportunities, Bookings, Portfolio, Services, Campus map,
+  Lost & found, plus the school and social links that used to live in the quick-links drawer.
+- Messages is a tab with an unread count (read aloud by screen readers).
+- Safety & SOS has one home: an SOS button in the top bar (students). Admins keep it in their profile menu.
+- One floating button remains (the assistant). The quick-links button and drawer are gone.
+
+SCREENS
+- Home: Today is one line that expands; the verification banner is one line and can be dismissed;
+  "Verified" shows as a small tag by your greeting instead of a card.
+- Communities: one consistent card pattern; the directory notice is a slim strip.
+- Events: agenda grouped by month with a date rail (RSVP and approve buttons unchanged).
+- Opportunities: result count and a "Saved" filter (demo and live).
+- Messages: cleaner inbox, and a conversation opens as a full-screen thread
+  (back arrow, name, bubbles, pinned message box). Sending/loading logic is untouched.
+- Admin: three KPI tiles in one row, compact hero. Fixed the Live/Offline strip, which was
+  cream text on a cream background on admin screens.
+
+ACCESSIBILITY (measured with a script on 15 screens, light and dark, at phone size)
+- Contrast failures: 105+ -> 0 in both themes. One colour (--muted, 3.9:1) caused most of them;
+  it is now about 5.2:1. A few orange/green/brown text colours were darkened.
+- Text below 11px raised; focus rings; reduced-motion respected; unread/tab labels for screen readers.
+- Removed aria-live from the whole page area (it made screen readers re-read the page on every change).
+- Tap targets: top bar and buttons are 44px. Post avatars (38px) and switches have an invisible
+  44px tap area instead of changing the design. Inline text links were left alone.
+
+TESTED (headless browser, phone size, real taps, zero JavaScript errors)
+27 checks: tabs, badge, Today toggle, dismiss, SOS sheet, Campus -> Opportunities, Saved filter,
+agenda + RSVP, thread open/send/reply/back, dark switch + persistence + reload, warden screens.
+Project build check (scripts/copy-web.mjs) passes.
+
+NOT DONE / NEEDS YOUR EYES
+- tests/live-mode.test.mjs not run (needs jsdom, no network here). It does not use any selector I changed.
+- Live-mode screens were checked by code and shared class names, not against a real Supabase.
+- Android status bar and nav bar colours are not themed for dark mode (needs a small native change).
+- Real phone check: look at the top bar on your narrowest device (search box is smaller now).

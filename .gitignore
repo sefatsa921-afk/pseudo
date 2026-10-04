@@ -1,0 +1,14 @@
+node_modules/
+android/.gradle/
+android/build/
+android/app/build/
+android/capacitor-cordova-android-plugins/build/
+*.iml
+.DS_Store
+.env
+.env.*
+!.env.example
+!backend/.env.example
+backend/.env
+android/app/src/main/assets/public/
+

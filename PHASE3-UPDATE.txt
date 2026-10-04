@@ -1,0 +1,30 @@
+Veya Phase 2 + Phase 3 update (merged onto the Stage 4 upload)
+================================================================
+
+PHASE 2 (display fixes, re-applied on top of Stage 4)
+- Warden greeting shows the name and the right time of day (was raw code).
+- Page titles no longer squeezed by their buttons.
+- Quick-links menu moved into the top bar (no longer floats over content).
+- Demo events are dated relative to today.
+- Plain-language wording for the directory banner.
+- App no longer opens scrolled down after signing in (demo and real sign-in).
+- Admin screens: invisible text fixed (KPI numbers, bell icon, "Show admin QR"), card overflow fixed.
+
+PHASE 3 (honest foundation)
+- Live / Offline / Offline demo badge under the top bar (www/js/23-mode-badge.js).
+  The client now fires a "veya:network" event so the badge reflects real connectivity.
+- Background failures are no longer silent: one throttled reporter (VeyaLive.reportError).
+  Used by memberships, events/bookings/opportunities loading, the verification queue and the overview.
+  A 404 (missing table/function, i.e. a migration not run) now shows "Backend setup is incomplete".
+- Warden overview shows real counts when signed in live (www/js/24-admin-stats.js), and "-" if they
+  cannot be loaded. The invented figures (42, +6, 72% viewed, "1 report") remain only in the labelled
+  offline demo.
+- Verification adapter now uses the refresh-aware token (a saved token goes stale after ~1 hour).
+- backend/phase3-signup-trigger.sql: creates a profile automatically at sign-up (+ backfill).
+  RUN THIS ONCE IN THE SUPABASE SQL EDITOR. It could not be executed in the build environment,
+  so run the check queries at the bottom of the file afterwards.
+
+NOT DONE / STILL OPEN
+- tests/live-mode.test.mjs needs jsdom (npm install in tests/); not run here.
+- Hosted Supabase still needs stage4-migration.sql and tests/security-tests.sql re-run.
+- Profile follower counts and other non-admin numbers have not been audited yet.

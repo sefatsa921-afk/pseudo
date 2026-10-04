@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2A1C14</color>
+    <color name="colorPrimaryDark">#1D120C</color>
+    <color name="colorAccent">#C45C26</color>
+    <color name="espresso">#2A1C14</color>
+    <color name="espresso_deep">#1D120C</color>
+    <color name="paper">#F6F0E6</color>
+    <color name="gold">#E3B25C</color>
+    <color name="terracotta">#C45C26</color>
+</resources>

@@ -1,0 +1,20 @@
+Veya Stage 4 setup
+
+Run in Supabase SQL Editor, in this order:
+1. schema.sql (only for a fresh development database, or use the reviewed existing migration)
+2. grants.sql
+3. stage4-migration.sql
+4. backend/tests/security-tests.sql
+
+Stage 4 adds:
+- event proposals / approvals and RSVPs
+- published opportunities, saves, applications and application statuses
+- tutor / counselling / facility bookings and booking decisions
+- portfolio items, credentials and controlled share links
+- private post-media storage with signed URLs and approval state
+- in-app notification creation for key server-side events
+
+Security:
+- Keep the service-role / secret key out of all frontend files.
+- The Veya app uses only the existing publishable key.
+- The media bucket is private; the app never exposes public media URLs.

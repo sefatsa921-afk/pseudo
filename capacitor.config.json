@@ -1,0 +1,8 @@
+{
+  "appId": "com.veya.campus",
+  "appName": "Veya Campus",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}

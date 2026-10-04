@@ -1,0 +1,20 @@
+Stage 4 SQL error fix
+
+If Supabase returned:
+ERROR: 42501: must be owner of table objects
+
+that came from the old line:
+  alter table storage.objects enable row level security;
+
+Supabase manages the Storage schema/table. RLS is already managed there, so Stage 4 must not ALTER storage.objects.
+
+Use the updated backend/stage4-migration.sql in this ZIP. It removes that ALTER statement but keeps the Storage bucket and Storage RLS policies.
+
+Run the updated migration from the beginning. It is written to be safe to rerun (functions/triggers/policies/indexes use replace/drop-if-exists/if-not-exists patterns).
+
+Security test fix
+
+The included backend/tests/security-tests.sql now treats the reports UPDATE check
+correctly: a reporter is allowed to have no UPDATE privilege at all, so the test
+passes on SQLSTATE 42501 instead of failing before RLS can be evaluated.
+Do not grant UPDATE on public.reports to authenticated just to make the test pass.

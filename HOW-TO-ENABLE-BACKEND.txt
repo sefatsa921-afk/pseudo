@@ -1,0 +1,43 @@
+Veya Campus – How to turn on the real Supabase backend
+=======================================================
+
+The app still works 100% offline (localStorage demo).
+Follow these steps only when you want the real verification RPCs.
+
+1. Open Supabase → your project → Settings → API
+2. Copy:
+   - Project URL   (https://xxxx.supabase.co)
+   - Publishable key  (starts with sb_publishable_...)
+
+3. Edit the file:
+   www/supabase-config.js
+
+   Change it to look like this (use YOUR values):
+
+   window.VEYA_SUPABASE_CONFIG = {
+     enabled: true,
+     url: "https://YOUR-PROJECT-REF.supabase.co",
+     publishableKey: "sb_publishable_xxxxxxxx"
+   };
+
+4. Make sure you already ran schema.sql and seed-demo.sql
+   in the Supabase SQL Editor.
+
+5. (Optional for real auth) Create two users in Supabase Auth
+   and put a valid access token in the browser console:
+
+   window.veyaAccessToken = "eyJ...";
+
+   Without a token the app stays in local demo mode even if
+   enabled: true is set.
+
+6. Reload the app. The verification flow will now try the
+   real RPCs and fall back to localStorage if anything fails.
+
+
+Files changed in this package
+-----------------------------
+- www/js/18-verification-backend.js   (NEW – thin adapter)
+- www/js/12-page-events.js            (wired create / submit / review)
+- www/index.html                      (loads the new script)
+- www/supabase-config.js              (still disabled by default)

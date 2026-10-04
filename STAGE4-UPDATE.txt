@@ -1,0 +1,27 @@
+Veya Stage 4 update
+===================
+
+Built on the Stage 3 live project.
+
+Live features added:
+- Events: live listings, RSVPs, event proposals, moderator approval/rejection.
+- Opportunities: bursaries/scholarships/jobs, saves, tracked applications, optional short-lived portfolio share, provider listing submission/review.
+- Bookings: live tutor/counselling/facility resources, requests, cancellations and authorised approve/decline decisions.
+- Portfolio: real credentials, portfolio items, visibility, short-lived share links and revocation.
+- Notifications: live in-app notifications with read/unread state.
+- Photos: private Supabase Storage uploads, consent confirmation, pending moderation and signed display URLs after approval.
+- Stage 4 moderation UI: event/opportunity/media review and photo moderation queue.
+
+Security:
+- No service-role/secret Supabase key is included in the app or this update.
+- Stage 4 storage is private; media is shown through short-lived signed URLs.
+- Photo sharing requires explicit consent confirmation.
+- Existing RLS/security functions remain the enforcement layer.
+
+Before live testing:
+1. Run backend/stage4-migration.sql in the development Supabase SQL Editor after schema.sql + grants.sql.
+2. Run backend/tests/security-tests.sql.
+3. Commit and push the update so GitHub Actions runs npm run sync and rebuilds the APK.
+
+Notes:
+- The real Supabase project was not executed from this environment, so run the SQL migration and test with your development database before using real student data.

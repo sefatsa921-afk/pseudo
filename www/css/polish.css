@@ -1,0 +1,134 @@
+/* Phone polish layer. Loaded after app.css so it can stay small and readable.
+ * Goals: feed first, fewer fixed controls, nothing hidden behind a floating button. */
+
+:root { --safe-bottom: env(safe-area-inset-bottom, 0px); }
+
+/* ---- Page headers: one compact row instead of a ~140px intro block ---- */
+.page-head.compact { display: block; margin: 2px 0 12px; padding: 0; }
+.page-head.compact .ph-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.page-head.compact h1 { margin: 0; min-width: 0; font-size: 1.35rem; line-height: 1.2; letter-spacing: -.02em; }
+.page-head.compact p {
+  margin: 3px 0 0; max-width: none; font-size: .78rem; color: var(--muted);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.page-head.compact .head-actions { flex: none; display: flex; gap: 8px; }
+.page-head.compact .head-actions .btn { padding: 8px 12px; font-size: .74rem; white-space: nowrap; }
+.admin-shell .page-head.compact h1, .admin-shell .page-head.compact p { color: var(--card); }
+
+/* ---- Demo strip: one line per screen ---- */
+.demo-strip {
+  margin: 0; padding: 6px 14px; text-align: center;
+  background: rgba(196, 92, 38, .09); color: #8A5A38;
+  font-size: .68rem; font-weight: 600; letter-spacing: .01em;
+}
+.demo-strip[hidden] { display: none; }
+[data-theme="dark"] .demo-strip { background: rgba(227, 178, 92, .12); color: #E3B25C; }
+
+/* ---- Top bar: brand, search, bell, avatar ---- */
+.profile-btn { position: relative; }
+.profile-dot {
+  position: absolute; top: -1px; right: -1px; width: 11px; height: 11px;
+  border: 2px solid var(--paper, #F6F0E6); border-radius: 50%; background: var(--accent, #C45C26);
+}
+.profile-dot.hidden { display: none; }
+.menu-count {
+  margin-left: auto; min-width: 20px; height: 20px; padding: 0 6px; display: grid; place-items: center;
+  border-radius: 999px; background: var(--accent, #C45C26); color: #fff; font-size: .68rem; font-weight: 700;
+}
+
+/* ---- Home: tighter cards so the feed starts higher ---- */
+.greet { margin: 2px 2px 0; }
+.student-home .stories { padding-bottom: 10px; gap: 12px; }
+.student-home .story-ring { width: 52px; height: 52px; }
+.today-card { margin: 0 0 10px; padding: 10px 12px 4px; border-radius: 16px; }
+.today-head { align-items: center; gap: 8px; margin-bottom: 0; }
+.today-head span { margin-left: auto; }
+.today-head strong { font-size: .95rem; }
+.today-row { gap: 10px; padding: 8px 0; }
+.today-ic { width: 32px; height: 32px; border-radius: 10px; }
+.today-txt small { font-size: .6rem; }
+.today-sos {
+  display: grid; place-items: center; flex: none; width: 28px; height: 28px; padding: 0;
+  border: 0; border-radius: 50%; background: rgba(192, 72, 47, .14); color: #B23A25; cursor: pointer;
+}
+.today-sos:active { transform: scale(.92); }
+.student-shell .verification-card { margin: 0 0 8px; padding: 10px 12px; gap: 10px; border-radius: 14px; flex-direction: row; align-items: center; }
+.student-shell .verification-card > .flex { flex: 1; min-width: 0; }
+.student-shell .verification-card h3 { margin: 0; font-size: .84rem; }
+.student-shell .verification-card p { margin: 0; font-size: .7rem; }
+.student-shell .verification-card .check-bubble { width: 30px; height: 30px; }
+.coming-up, .suggested { margin-top: 12px; }
+
+/* ---- Toasts sit above the floating buttons, never behind them ---- */
+.toast, .toast[role="status"] {
+  position: fixed; left: 50%; right: auto; transform: translateX(-50%);
+  bottom: calc(142px + var(--safe-bottom)); z-index: 200;
+  width: max-content; max-width: calc(100% - 32px); text-align: center;
+  white-space: normal; line-height: 1.35;
+}
+.admin-shell ~ #toastRoot .toast { bottom: calc(86px + var(--safe-bottom)); }
+
+/* ---- Assistant button: a count instead of a pop-up over the first screen ---- */
+.chat-fab { position: fixed; }
+.chat-fab.has-news::after {
+  content: attr(data-count); position: absolute; top: -4px; right: -4px;
+  min-width: 18px; height: 18px; padding: 0 5px; display: grid; place-items: center;
+  border: 2px solid var(--paper, #F6F0E6); border-radius: 999px;
+  background: #3A2418; color: #fff; font-size: .62rem; font-weight: 700;
+}
+
+/* ---- Report / block sheets ---- */
+.rp-lead { margin: 0 0 10px; font-size: .8rem; }
+.report-reasons { display: grid; gap: 2px; margin-bottom: 8px; max-height: 38vh; overflow: auto; }
+.report-reason {
+  display: flex; align-items: center; gap: 10px; padding: 10px 6px; border-radius: 10px;
+  font-size: .86rem; cursor: pointer;
+}
+.report-reason:has(input:checked) { background: rgba(196, 92, 38, .1); }
+.report-reason input { accent-color: var(--accent, #C45C26); width: 18px; height: 18px; }
+.rp-sos { display: block; margin: 12px auto 0; font-size: .76rem; }
+.menu-list { display: grid; gap: 2px; }
+.menu-list .menu-item.danger { color: #B23A25; }
+.pf-more { padding-left: 10px; padding-right: 10px; }
+.dm-opts { margin-left: 8px; font-size: .72rem; }
+.rp-item { align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+.rp-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+/* Make sure every tap target is at least 40px tall on a phone */
+@media (max-width: 520px) {
+  .btn.small { min-height: 36px; }
+  .act { min-width: 40px; min-height: 40px; }
+}
+
+/* While a sheet is open the toast moves to the top so it never covers the sheet's buttons */
+body:has(#modalRoot .modal-backdrop) .toast { bottom: auto; top: calc(14px + env(safe-area-inset-top, 0px)); }
+
+
+/* ---- Phase 2 display fixes ---- */
+.page-head.compact .ph-row { flex-wrap: wrap; }
+.page-head.compact h1 { flex: 0 1 auto; }
+.app-shell.active .topbar-right .quick-links-toggle,
+.app-shell.active.fabs-hidden .topbar-right .quick-links-toggle {
+  position: static !important; width: 40px !important; height: 40px !important; min-width: 0 !important;
+  padding: 0 !important; border-radius: 14px !important; opacity: 1 !important; pointer-events: auto !important;
+  transform: none !important; box-shadow: none !important; z-index: auto !important; flex: none;
+}
+/* Admin screens: page text is cream but cards are cream too, so card content must be dark. */
+.admin-shell .main .card:not(.admin-hero),
+.admin-shell .main .request-card { color: var(--ink); }
+.admin-shell .notification-button { background: rgba(255,249,241,.12); color: var(--card); }
+.admin-shell .head-actions .btn.secondary { background: rgba(255,249,241,.14); color: var(--card); }
+.admin-shell .grid.two, .admin-shell .grid.three { grid-template-columns: minmax(0, 1fr); }
+.admin-shell .request-card .avatar { color: var(--ink); }
+
+/* ---- Mode badge: Live / Offline / Offline demo ---- */
+.mode-badge { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 0; padding: 4px 12px;
+  font-size: .68rem; line-height: 1.3; background: rgba(127,127,127,.10); }
+.mode-badge[hidden] { display: none; }
+.mode-badge .mode-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: #9a9a9a; }
+.mode-badge.live .mode-dot { background: #4f9a63; }
+.mode-badge.offline .mode-dot { background: #d9972b; }
+.mode-badge.demo .mode-dot { background: #9a9a9a; }
+.mode-badge strong, .mode-badge .mode-hint { white-space: nowrap; }
+.mode-badge .mode-hint { opacity: .75; }
+.admin-shell .mode-badge { color: rgba(255,249,241,.88); }

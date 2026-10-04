@@ -1,0 +1,23 @@
+Veya Stage 3 update
+
+What is connected:
+- Friend requests: send, accept, decline, cancel
+- Direct messages: real Supabase messages with friend/module-rep rules
+- Block/unblock: real user_blocks table
+- Reports: real reports table
+- Admin/community moderation queue: resolve_report + moderate_content
+- Live social state is isolated from demo/localStorage state
+
+Files:
+www/index.html
+www/supabase-client.js
+www/js/20-live.js
+www/js/21-stage3-live.js
+
+The same web assets are mirrored into android/app/src/main/assets/public/ for manual Android Studio builds.
+
+Security:
+- No service-role/secret key was added.
+- Only the existing publishable key is used client-side.
+- Run backend/tests/security-tests.sql in the development Supabase project before real users.
+- Push the repository so GitHub Actions runs npm run sync and rebuilds the APK.

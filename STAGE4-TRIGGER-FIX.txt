@@ -1,0 +1,15 @@
+Stage 4 trigger fix
+===================
+Bug: private.notify_application_change() used a variable named community_id, which clashes with
+community_memberships.community_id inside the same query. Postgres refused it with
+  ERROR: column reference "community_id" is ambiguous
+and because it is a trigger, EVERY opportunity application insert failed.
+
+Fix: variable renamed to v_community in backend/stage4-migration.sql.
+Apply: run the updated backend/stage4-migration.sql in the Supabase SQL Editor (safe to re-run). No app rebuild needed.
+
+Verified on a local PostgreSQL 16 with a Supabase-style shim (no default table grants):
+- schema.sql, grants.sql, stage4-migration.sql apply with no errors
+- backend/tests/security-tests.sql: 25 PASS, 0 FAIL
+- all 7 notification triggers fire correctly (new tests in backend/tests/stage4-*.sql)
+This was not run on your hosted Supabase project, so run security-tests.sql there too.
